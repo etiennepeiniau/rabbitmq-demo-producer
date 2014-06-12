@@ -1,5 +1,6 @@
 package com.ekino.technoshare.rabbitmq;
 
+import com.ekino.technoshare.rabbitmq.config.GsonConfig;
 import com.ekino.technoshare.rabbitmq.config.RabbitMQConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Import;
     "com.ekino.technoshare.rabbitmq.controller"
 })
 @Import({
+        GsonConfig.class,
         RabbitMQConfig.class
 })
 public class Application {

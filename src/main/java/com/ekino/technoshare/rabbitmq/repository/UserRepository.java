@@ -14,7 +14,11 @@ public class UserRepository {
     private static ConcurrentMap<String, User> repository = Maps.newConcurrentMap();
 
     public void putIfAbsent(User user){
-        repository.putIfAbsent(user.getIp(), user);
+        repository.putIfAbsent(user.getName(), user);
+    }
+
+    public void remove(User user){
+        repository.remove(user.getName());
     }
 
     public List<User> getAll() {

@@ -1,15 +1,14 @@
 package com.ekino.technoshare.rabbitmq.config;
 
-import com.ekino.technoshare.rabbitmq.listener.UserMessageListener;
+import com.ekino.technoshare.rabbitmq.listener.AddUserListener;
+import com.ekino.technoshare.rabbitmq.listener.RemoveUserListener;
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +24,10 @@ import javax.annotation.Resource;
 public class RabbitMQConfig {
 
     @Resource
-    private UserMessageListener userMessageListener;
+    private AddUserListener addUserListener;
+
+    @Resource
+    private RemoveUserListener removeUserListener;
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -39,27 +41,40 @@ public class RabbitMQConfig {
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        template.setMessageConverter(messageConverter());
-        return template;
+        return new RabbitTemplate(connectionFactory());
+    }
+
+    // User management
+
+    @Bean
+    public Queue addUserQueue() {
+        return new Queue("server.add.user.queue", false, true, true);
     }
 
     @Bean
-    public MessageConverter messageConverter() {
-        return new JsonMessageConverter();
-    }
-
-    @Bean
-    public Queue serverUsersQueue() {
-        return new Queue("server.users.queue", false, true, false);
-    }
-
-    @Bean
-    public SimpleMessageListenerContainer messageListenerContainer() {
+    public SimpleMessageListenerContainer addUserListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory());
-        container.setQueues(serverUsersQueue());
-        container.setMessageListener(userMessageListener);
+        container.setConcurrentConsumers(1);
+        container.setExclusive(true);
+        container.setQueues(addUserQueue());
+        container.setMessageListener(addUserListener);
+        return container;
+    }
+
+    @Bean
+    public Queue removeUserQueue() {
+        return new Queue("server.remove.user.queue", false, true, true);
+    }
+
+    @Bean
+    public SimpleMessageListenerContainer removeUserListenerContainer() {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory());
+        container.setConcurrentConsumers(1);
+        container.setExclusive(true);
+        container.setQueues(removeUserQueue());
+        container.setMessageListener(removeUserListener);
         return container;
     }
 

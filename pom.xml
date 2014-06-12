@@ -29,6 +29,11 @@
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${google.gson.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,6 +46,7 @@
     </build>
 
     <properties>
+        <google.gson.version>2.2.2</google.gson.version>
         <google.guava.version>13.0.1</google.guava.version>
     </properties>
     
