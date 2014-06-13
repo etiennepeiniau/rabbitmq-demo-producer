@@ -47,7 +47,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue addUserQueue() {
-        return new Queue("server.add.user.queue", false, true, true);
+        return new Queue("server.add.user.queue", false, true, false);
     }
 
     @Bean
@@ -63,7 +63,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue removeUserQueue() {
-        return new Queue("server.remove.user.queue", false, true, true);
+        return new Queue("server.remove.user.queue", false, true, false);
     }
 
     @Bean
