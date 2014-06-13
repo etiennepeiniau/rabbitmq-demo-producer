@@ -18,7 +18,7 @@ public class MessageService {
     private RabbitTemplate rabbitTemplate;
 
     @Resource
-    private Gson gson;
+    private MessageConverterService converter;
 
     @Resource
     private DirectExchange serverDirect;
@@ -30,15 +30,15 @@ public class MessageService {
     private TopicExchange serverTopic;
 
     public void sendToAll(Message message) {
-
+        rabbitTemplate.send(serverFanout.getName(), "", converter.toAmqpMessage(message));
     }
 
     public void sendToOne(Message message, User user) {
-
+        rabbitTemplate.send(serverDirect.getName(), user.getName(), converter.toAmqpMessage(message));
     }
 
     public void sendToSome(Message message, String routingKey) {
-
+        rabbitTemplate.send(serverTopic.getName(), routingKey, converter.toAmqpMessage(message));
     }
 
 }
