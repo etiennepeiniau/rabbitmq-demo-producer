@@ -2,8 +2,7 @@ package com.ekino.technoshare.rabbitmq.config;
 
 import com.ekino.technoshare.rabbitmq.listener.AddUserListener;
 import com.ekino.technoshare.rabbitmq.listener.RemoveUserListener;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -76,6 +75,23 @@ public class RabbitMQConfig {
         container.setQueues(removeUserQueue());
         container.setMessageListener(removeUserListener);
         return container;
+    }
+
+    // Action management
+
+   @Bean
+   public DirectExchange serverDirect() {
+       return new DirectExchange("server.direct.exchange", false, false);
+   }
+
+    @Bean
+    public FanoutExchange serverFanout() {
+        return new FanoutExchange("server.fanout.exchange", false, false);
+    }
+
+    @Bean
+    public TopicExchange serverTopic() {
+        return new TopicExchange("server.topic.exchange", false, false);
     }
 
 }
