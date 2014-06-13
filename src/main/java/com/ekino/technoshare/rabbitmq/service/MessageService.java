@@ -33,8 +33,8 @@ public class MessageService {
         rabbitTemplate.send(serverFanout.getName(), "", converter.toAmqpMessage(message));
     }
 
-    public void sendToOne(Message message, User user) {
-        rabbitTemplate.send(serverDirect.getName(), user.getName(), converter.toAmqpMessage(message));
+    public void sendToOne(Message message, String userName) {
+        rabbitTemplate.send(serverDirect.getName(), userName + ".queue", converter.toAmqpMessage(message));
     }
 
     public void sendToSome(Message message, String routingKey) {

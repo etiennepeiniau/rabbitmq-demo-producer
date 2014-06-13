@@ -1,10 +1,13 @@
 package com.ekino.technoshare.rabbitmq.model;
 
+import java.util.List;
+
 public class User {
 
     private String name;
     private String vendor;
     private String platform;
+    private List<String> bindingKeys;
 
     public String getName() {
         return name;
@@ -28,6 +31,14 @@ public class User {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public List<String> getBindingKeys() {
+        return bindingKeys;
+    }
+
+    public void setBindingKeys(List<String> bindingKeys) {
+        this.bindingKeys = bindingKeys;
     }
 
 }
