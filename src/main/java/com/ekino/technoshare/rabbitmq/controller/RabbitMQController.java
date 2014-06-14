@@ -5,6 +5,7 @@ import com.ekino.technoshare.rabbitmq.model.MessageType;
 import com.ekino.technoshare.rabbitmq.model.User;
 import com.ekino.technoshare.rabbitmq.repository.UserRepository;
 import com.ekino.technoshare.rabbitmq.service.MessageService;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class RabbitMQController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> list() {
-        return userRepository.getAll();
+        return userRepository.findAll();
     }
 
     @RequestMapping(value = "/users/clear/all", method = RequestMethod.POST)
