@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan(basePackages = {
+    "com.ekino.technoshare.rabbitmq.filter",
     "com.ekino.technoshare.rabbitmq.repository",
     "com.ekino.technoshare.rabbitmq.service",
     "com.ekino.technoshare.rabbitmq.controller"
